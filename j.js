@@ -48,26 +48,17 @@ const users = [{"id":1,"first_name":"Ariel","last_name":"Clulee","email":"aclule
 {"id":48,"first_name":"Francene","last_name":"Natalie","email":"fnatalie1b@java.com","gender":"Female","ip_address":"134.164.11.194"},
 {"id":49,"first_name":"Alyse","last_name":"Risbridge","email":"arisbridge1c@g.co","gender":"Female","ip_address":"101.185.221.51"},
 {"id":50,"first_name":"Ali","last_name":"Prangley","email":"aprangley1d@imdb.com","gender":"Male","ip_address":"146.160.197.214"}]
-const idBuscado = parseInt(prompt("Ingrese el ID del usuario a buscar:"));
-let usuario=null;
-for (let i = 0; i < users.length; i++) {
-    if (users[i].id === idBuscado) {
-        usuario = users[i];
-        break;
-    }
-}
-if (usuario){
-    console.log("Usuario encontrado:", usuario);
-}else{
+const idBuscado = prompt("Ingrese el ID del usuario a buscar:");
+const buscadorId = users.find((user) => {
+    return user.id === parseInt(idBuscado);
+});
+const genderCount = users.reduce((acc,user) =>{
+    acc[user.gender] = (acc[user.gender] || 0) + 1;
+    return acc;
+}, {})
+if (buscadorId) {
+    console.log(`Usuario encontrado: ${buscadorId.first_name} - ${buscadorId.last_name} - ${buscadorId.email} - ${buscadorId.gender} - ${buscadorId.ip_address}`);
+    } else {
     alert("Usuario no encontrado");
 }
-let accGender = {};
-for (let i = 0; i <users.length; i++) {
-    let genero = users[i].gender;
-    if (accGender[genero]) {
-        accGender[genero]++;
-    } else {
-        accGender[genero] = 1;
-    }
-}
-console.log(accGender);
+console.log("Cantidad de usuarios por género:", genderCount);
