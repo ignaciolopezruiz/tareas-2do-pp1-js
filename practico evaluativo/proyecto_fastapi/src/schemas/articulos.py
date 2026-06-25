@@ -3,10 +3,7 @@ from pydantic import BaseModel, Field
 
 
 class ArticuloEdit(BaseModel):
-    """
-    Schema usado para las vistas de edición (create / update).
-    No incluye 'id' porque ese valor lo genera/administra el servidor.
-    """
+
     nombre: Annotated[
         str,
         Field(
@@ -36,10 +33,7 @@ class ArticuloEdit(BaseModel):
 
 
 class ArticuloResponse(ArticuloEdit):
-    """
-    Schema usado para las respuestas generales.
-    Hereda los campos de ArticuloEdit y agrega el 'id'.
-    """
+
     id: Annotated[
         int,
         Field(

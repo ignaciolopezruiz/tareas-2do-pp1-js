@@ -9,8 +9,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Configuración de CORS para permitir la conexión con el front
-# desarrollado en el TP01 Evaluativo de PP1 - JavaScript.
 origins = [
     "http://localhost",
     "http://localhost:3000",
@@ -26,7 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Inclusión de routers existentes
+
 app.include_router(articulos.router)
 
 

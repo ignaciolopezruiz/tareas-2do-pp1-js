@@ -34,8 +34,7 @@ const formularioCrear = document.getElementById("form-crear");
 formularioCrear.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  // Nota: NO mandamos "id" en el body. El backend de FastAPI lo asigna
-  // automáticamente (mirar ArticuloEdit / ArticuloResponse en schemas/articulos.py).
+
   const datosFormulario = {
     nombre: document.getElementById("nombre").value,
     precio: parseFloat(document.getElementById("precio").value),
@@ -46,7 +45,7 @@ formularioCrear.addEventListener("submit", (e) => {
 
 async function editarArticulo(nuevoArticulo, id) {
   try {
-    // OJO: sin barra final. La ruta del backend es /articulos/{id}, no /articulos/{id}/
+
     const respuesta = await fetch(`${API_URL}${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -101,7 +100,6 @@ async function buscarPorId() {
     document.getElementById("edit-precio").value = articulo.precio;
     document.getElementById("edit-categoria").value = articulo.categoria;
 
-    // También lo mostramos en la pantalla, a modo de "vista de detalle" (R1)
     document.getElementById("pantalla").textContent = JSON.stringify(articulo, null, 2);
 
   } catch (error) {
@@ -138,9 +136,7 @@ formularioEditar.addEventListener("submit", (e) => {
 })
 
 
-/* =========================================================
-   R3 — Helpers de LocalStorage para "Mis Favoritos"
-   ========================================================= */
+
 const FAVORITOS_KEY = "favoritos_articulos";
 
 function getFavoritos() {
@@ -159,7 +155,7 @@ function esFavorito(id) {
   return getFavoritos().some((articulo) => articulo.id === id);
 }
 
-// Evento: agregar/quitar favoritos
+
 function agregarFavorito(articulo) {
   const favoritos = getFavoritos();
   if (!esFavorito(articulo.id)) {
@@ -174,8 +170,7 @@ function quitarFavorito(id) {
   renderFavoritos();
 }
 
-// Toma el artículo que está actualmente cargado en el form de edición
-// (el que trajo buscarPorId) y lo agrega a favoritos.
+
 function agregarBusquedaAFavoritos() {
   const id = parseInt(document.getElementById("edit-id").value);
   if (!id) { alert("Primero buscá un artículo por ID"); return; }
@@ -189,7 +184,7 @@ function agregarBusquedaAFavoritos() {
   agregarFavorito(articulo);
 }
 
-// Evento: selección de ítem (al tocar un favorito, lo carga en el buscador y muestra su detalle)
+
 function seleccionarFavorito(id) {
   document.getElementById("buscar-id").value = id;
   buscarPorId();
@@ -220,5 +215,5 @@ function renderFavoritos() {
   `).join("");
 }
 
-// Pintar favoritos guardados al cargar la página
+
 renderFavoritos();

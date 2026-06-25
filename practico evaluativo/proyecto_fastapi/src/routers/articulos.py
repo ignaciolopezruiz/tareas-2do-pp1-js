@@ -8,8 +8,6 @@ router = APIRouter(
     tags=["Artículos"],
 )
 
-# "Tabla" simulada de base de datos en memoria.
-# Cada registro está validado/representado por el modelo ArticuloResponse.
 db_articulos: list[ArticuloResponse] = [
     ArticuloResponse(id=1, nombre="Teclado mecánico", precio=15999.99, categoria="Periféricos"),
     ArticuloResponse(id=2, nombre="Mouse inalámbrico", precio=8999.50, categoria="Periféricos"),
@@ -18,7 +16,6 @@ db_articulos: list[ArticuloResponse] = [
 
 
 def _buscar_articulo(articulo_id: int) -> ArticuloResponse:
-    """Función auxiliar que busca un artículo por id o levanta un 404."""
     for articulo in db_articulos:
         if articulo.id == articulo_id:
             return articulo
@@ -28,7 +25,7 @@ def _buscar_articulo(articulo_id: int) -> ArticuloResponse:
     )
 
 
-# ---------- 1) CREATE ----------
+
 @router.post(
     "/",
     response_model=ArticuloResponse,
@@ -42,7 +39,7 @@ def crear_articulo(articulo: ArticuloEdit) -> ArticuloResponse:
     return nuevo_articulo
 
 
-# ---------- 2) READ (listado con filtros opcionales) ----------
+
 @router.get(
     "/",
     response_model=list[ArticuloResponse],
@@ -72,7 +69,7 @@ def listar_articulos(
     return resultado[:limite]
 
 
-# ---------- 3) READ (por id) ----------
+
 @router.get(
     "/{articulo_id}",
     response_model=ArticuloResponse,
@@ -91,7 +88,7 @@ def obtener_articulo(
     return _buscar_articulo(articulo_id)
 
 
-# ---------- 4) UPDATE ----------
+
 @router.put(
     "/{articulo_id}",
     response_model=ArticuloResponse,
@@ -115,7 +112,7 @@ def actualizar_articulo(
     return articulo_existente
 
 
-# ---------- 5) DELETE ----------
+
 @router.delete(
     "/{articulo_id}",
     response_model=ArticuloResponse,
